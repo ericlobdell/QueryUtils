@@ -61,9 +61,7 @@ namespace QueryUtils
 
       foreach (var filter in parseResult.Filters)
       {
-        var normalizedKey = filter.Key.ToLower();
-
-        if (!props.Any(p => p.Name.ToLower() == normalizedKey))
+        if (!props.Any(p => p.Name.ToLower() == filter.Key))
           throw new InvalidOperationException($"{filter.Key} is not a property of {typeof(T).Name}");
 
         query = query.Where(x => x.GetType().GetProperty(filter.Key).GetValue(x).ToString() == filter.Value);
