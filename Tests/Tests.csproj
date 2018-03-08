@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QueryParser\QueryParser.csproj" />
+    <ProjectReference Include="..\QueryParser\QueryUtils.csproj" />
   </ItemGroup>
 
 </Project>

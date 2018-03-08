@@ -1,4 +1,4 @@
-﻿using QueryParser;
+﻿using QueryUtils;
 using Xunit;
 
 namespace Tests

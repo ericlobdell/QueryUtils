@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QueryParser
+namespace QueryUtils
 {
-  public class Parser
+  public class QueryParser
   {
     public static ParseResult Parse(QueryParams q)
     {
@@ -61,7 +61,9 @@ namespace QueryParser
 
       foreach (var filter in parseResult.Filters)
       {
-        if (!props.Any(p => p.Name == filter.Key))
+        var normalizedKey = filter.Key.ToLower();
+
+        if (!props.Any(p => p.Name.ToLower() == normalizedKey))
           throw new InvalidOperationException($"{filter.Key} is not a property of {typeof(T).Name}");
 
         query = query.Where(x => x.GetType().GetProperty(filter.Key).GetValue(x).ToString() == filter.Value);

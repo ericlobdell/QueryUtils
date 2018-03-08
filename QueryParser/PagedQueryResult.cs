@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace QueryParser
+namespace QueryUtils
 {
   public class PagedQueryResult<T>
   {

@@ -1,4 +1,4 @@
-﻿namespace QueryParser
+﻿namespace QueryUtils
 {
   public class QueryParams : PagingParameters
   {

@@ -1,4 +1,4 @@
-﻿using QueryParser;
+﻿using QueryUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace Tests
         Filters = string.Empty
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.Empty(result.Filters);
     }
@@ -29,7 +29,7 @@ namespace Tests
         Filters = null
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.Empty(result.Filters);
     }
@@ -42,7 +42,7 @@ namespace Tests
         Includes = string.Empty
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.Empty(result.Includes);
     }
@@ -55,7 +55,7 @@ namespace Tests
         Includes = null
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.Empty(result.Includes);
     }
@@ -69,7 +69,7 @@ namespace Tests
         PageSize = 5
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.Equal(q.PageNumber, result.PagingParams.PageNumber);
       Assert.Equal(q.PageSize, result.PagingParams.PageSize);
@@ -83,7 +83,7 @@ namespace Tests
         Filters = "a=b"
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.True(result.Filters.ContainsKey("a"));
       Assert.Equal("b", result.Filters["a"]);
@@ -97,7 +97,7 @@ namespace Tests
         Filters = "a=b,x=y"
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.True(result.Filters.ContainsKey("a"));
       Assert.Equal("b", result.Filters["a"]);
@@ -114,7 +114,7 @@ namespace Tests
         Filters = "a=b,a=c"
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.True(result.Filters.ContainsKey("a"));
       Assert.Equal("c", result.Filters["a"]);
@@ -128,7 +128,7 @@ namespace Tests
         Includes = "a"
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.Contains("a", result.Includes);
     }
@@ -141,7 +141,7 @@ namespace Tests
         Includes = "a,b"
       };
 
-      var result = Parser.Parse(q);
+      var result = QueryParser.Parse(q);
 
       Assert.Contains("a", result.Includes);
       Assert.Contains("b", result.Includes);
@@ -160,7 +160,7 @@ namespace Tests
 
       var q = new List<Foo>().AsQueryable();
 
-      var ex = Assert.Throws<InvalidOperationException>(() => Parser.MapFiltersToQuery<Foo>(results, q));
+      var ex = Assert.Throws<InvalidOperationException>(() => QueryParser.MapFiltersToQuery<Foo>(results, q));
 
       Assert.True(ex.Message.ContainsTerms("x", "not", "property", nameof(Foo)));
     }
@@ -181,12 +181,11 @@ namespace Tests
 
       var q = new List<Foo> { goodFoo, badFoo }.AsQueryable();
 
-      var mappedQuery = Parser.MapFiltersToQuery<Foo>(results, q);
+      var mappedQuery = QueryParser.MapFiltersToQuery(results, q);
       var filteredList = mappedQuery.ToList();
 
       Assert.Contains(goodFoo, filteredList);
       Assert.DoesNotContain(badFoo, filteredList);
-      
     }
   }
 

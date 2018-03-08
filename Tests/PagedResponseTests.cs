@@ -1,5 +1,5 @@
 ﻿using AutoFixture.Xunit2;
-using QueryParser;
+using QueryUtils;
 using System.Collections.Generic;
 using Xunit;
 
